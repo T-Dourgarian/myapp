@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const db = require('./util/postgres');
 const PORT = process.env.PORT || 3000;
 
 // Middleware (optional)
