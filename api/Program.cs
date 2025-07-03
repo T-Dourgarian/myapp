@@ -6,6 +6,20 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 builder.Services.AddSignalR();
 
+var  MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                    policy  =>
+                    {
+                        policy.WithOrigins("http://localhost:8081")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod()
+                            .AllowCredentials();// Add this line
+                    });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -36,9 +50,8 @@ app.MapGet("/weatherforecast", () =>
 .WithName("GetWeatherForecast");
 
 app.MapHub<ChatHub>("/chatHub");
-
+app.UseCors(MyAllowSpecificOrigins);
 app.Run();
-
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
 {
     public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
