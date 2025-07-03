@@ -1,2 +1,3 @@
 # myapp
-recreate snapchat w reactnative and .net
+
+travel planning and management
